@@ -1,0 +1,124 @@
+
+//+------------------------------------------------------------------+
+//|                            Session Timer MT4                      |
+//|                    Developed by Forex Robot Easy Team             |
+//|                         www.forexroboteasy.com                    |
+//+------------------------------------------------------------------+
+#property strict
+#property version '1.00'
+#property description 'Session Timer MT4'
+
+// Global variables
+datetime lastTime;
+
+//+------------------------------------------------------------------+
+//| Custom indicator initialization function                         |
+//+------------------------------------------------------------------+
+int OnInit()
+{
+    // Set the initial time
+    lastTime = TimeCurrent();
+    
+    return(INIT_SUCCEEDED);
+}
+
+//+------------------------------------------------------------------+
+//| Custom indicator deinitialization function                       |
+//+------------------------------------------------------------------+
+void OnDeinit(const int reason)
+{
+    // Clean up any resources
+}
+
+//+------------------------------------------------------------------+
+//| Custom indicator iteration function                              |
+//+------------------------------------------------------------------+
+void OnCalculate(const int rates_total,
+                 const int prev_calculated,
+                 const datetime &time[],
+                 const double &open[],
+                 const double &high[],
+                 const double &low[],
+                 const double &close[],
+                 const long &tick_volume[],
+                 const long &volume[],
+                 const int &spread[])
+{
+    // Get the current time
+    datetime currentTime = TimeCurrent();
+    
+    // Check if the time has changed
+    if (currentTime != lastTime)
+    {
+        // Update the last time
+        lastTime = currentTime;
+        
+        // Display the real-time market time
+        DisplayMarketTime(currentTime);
+        
+        // Check for daylight savings update
+        CheckDaylightSavings(currentTime);
+        
+        // Highlight the opening and closing times
+        HighlightOpeningClosingTimes(currentTime);
+    }
+}
+
+//+------------------------------------------------------------------+
+//| Display the real-time market time                                |
+//+------------------------------------------------------------------+
+void DisplayMarketTime(const datetime time)
+{
+    // Convert the time to the corresponding market times
+    datetime sydneyTime = time + 3 * 60 * 60; // Sydney
+    datetime tokyoTime = time + 9 * 60 * 60; // Tokyo
+    datetime frankfurtTime = time + 1 * 60 * 60; // Frankfurt
+    datetime londonTime = time + 2 * 60 * 60; // London
+    datetime newYorkTime = time - 4 * 60 * 60; // New York
+    
+    // Display the market times
+    Print('Sydney: ', TimeToString(sydneyTime));
+    Print('Tokyo: ', TimeToString(tokyoTime));
+    Print('Frankfurt: ', TimeToString(frankfurtTime));
+    Print('London: ', TimeToString(londonTime));
+    Print('New York: ', TimeToString(newYorkTime));
+}
+
+//+------------------------------------------------------------------+
+//| Check for daylight savings update                                |
+//+------------------------------------------------------------------+
+void CheckDaylightSavings(const datetime time)
+{
+    // Get the current year
+    int year = TimeYear(time);
+    
+    // Check if daylight savings is in effect
+    bool isDaylightSavings = TimeDaylightSavings(year);
+    
+    if (isDaylightSavings)
+    {
+        // Adjust market times for daylight savings
+        // ...
+    }
+}
+
+//+------------------------------------------------------------------+
+//| Highlight the opening and closing times                           |
+//+------------------------------------------------------------------+
+void HighlightOpeningClosingTimes(const datetime time)
+{
+    // Get the opening and closing times for each market
+    datetime sydneyOpen = TimeCurrent();
+    datetime sydneyClose = TimeCurrent();
+    datetime tokyoOpen = TimeCurrent();
+    datetime tokyoClose = TimeCurrent();
+    datetime frankfurtOpen = TimeCurrent();
+    datetime frankfurtClose = TimeCurrent();
+    datetime londonOpen = TimeCurrent();
+    datetime londonClose = TimeCurrent();
+    datetime newYorkOpen = TimeCurrent();
+    datetime newYorkClose = TimeCurrent();
+    
+    // Highlight the opening and closing times on the Session Timer
+    // ...
+}
